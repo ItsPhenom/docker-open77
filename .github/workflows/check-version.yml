@@ -1,0 +1,59 @@
+name: Check Upstream Version
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Fetch latest.json
+        id: fetch
+        run: |
+          curl -sf https://cdn.open2077.net/server/latest.json -o latest.json
+          VERSION=$(jq -r .version latest.json)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Compare against stored version
+        id: compare
+        run: |
+          STORED_VERSION=""
+          [ -f .last-built-version ] && STORED_VERSION=$(cat .last-built-version)
+          NEW_VERSION="${{ steps.fetch.outputs.version }}"
+          echo "Stored: '$STORED_VERSION' / Upstream: '$NEW_VERSION'"
+          if [ "$STORED_VERSION" != "$NEW_VERSION" ]; then
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Update tracked version file
+        if: steps.compare.outputs.should_release == 'true'
+        run: |
+          echo "${{ steps.fetch.outputs.version }}" > .last-built-version
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .last-built-version
+          git commit -m "chore: bump tracked upstream version to ${{ steps.fetch.outputs.version }}"
+          git push
+
+      - name: Create tag and GitHub release
+        if: steps.compare.outputs.should_release == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
+        run: |
+          VERSION="${{ steps.fetch.outputs.version }}"
+          git tag "$VERSION"
+          git push origin "$VERSION"
+          gh release create "$VERSION" \
+            --title "$VERSION" \
+            --notes "Automated release for upstream Open//77 server version $VERSION"

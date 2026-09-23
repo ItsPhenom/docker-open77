@@ -1,0 +1,26 @@
+services:
+  open77:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VERSION: "${VERSION:-}"
+        BUILD_DATE: "${BUILD_DATE:-}"
+        REVISION: "${REVISION:-}"
+    image: open77:latest
+    restart: unless-stopped
+    environment:
+      TZ: "Europe/Berlin"
+    ports:
+      - "11778:11778"
+      - "11779:11779"
+      - "11780:11780"
+    volumes:
+      - open77-settings:/app/settings
+      - open77-resources:/app/resources
+      - open77-dotfiles:/app/.open77
+
+volumes:
+  open77-settings:
+  open77-resources:
+  open77-dotfiles:
