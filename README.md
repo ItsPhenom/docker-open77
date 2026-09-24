@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="200" alt="open77-logo-navy-bg" src="https://github.com/user-attachments/assets/2b8b8b98-713a-4d73-9181-73e500b3e284" alt="Open77 image" />
+  <img height="200" alt="open77-logo-navy-bg" src="https://private-user-images.githubusercontent.com/4627720/657552576-2b8b8b98-713a-4d73-9181-73e500b3e284.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3OTAyNjcwMTcsIm5iZiI6MTc5MDI2NjcxNywicGF0aCI6Ii80NjI3NzIwLzY1NzU1MjU3Ni0yYjhiOGI5OC03MTNhLTRkNzMtOTE4MS03M2U1MDBiM2UyODQucG5nP1gtQW16LUFsZ29yaXRobT1BV1M0LUhNQUMtU0hBMjU2JlgtQW16LUNyZWRlbnRpYWw9QUtJQVZDT0RZTFNBNTNQUUs0WkElMkYyMDI2MDkyNCUyRnVzLWVhc3QtMSUyRnMzJTJGYXdzNF9yZXF1ZXN0JlgtQW16LURhdGU9MjAyNjA5MjRUMTYxODM3WiZYLUFtei1FeHBpcmVzPTMwMCZYLUFtei1TaWduYXR1cmU9YWFkOTY3NWJmNGI3Y2Y1MGQwYTRiYjlhODMwMjQxNmI5M2Y1NTJkMzBhNzU2YjcwYmUzOGQ2YjNiYzQxZTcxYyZYLUFtei1TaWduZWRIZWFkZXJzPWhvc3QmcmVzcG9uc2UtY29udGVudC10eXBlPWltYWdlJTJGcG5nIn0.QWUA7lsUN7P7IOtvlnL8LSFvMHFECm5H81XJOAHRb64" alt="Open77 image" />
 </p>
 <p align="center">
     <a href="https://hub.docker.com/r/itsphenom/open77">
