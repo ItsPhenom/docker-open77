@@ -23,7 +23,7 @@ This Docker image provides a quick and reliable way to run a dedicated [OPEN//77
 
 The image supports customizable server configuration and persistent storage, so your world, settings, and data survive container restarts and updates.
 
-**Requirements for Clients:** Cyberpunk 2077 2.31+ with Phantom Liberty DLC, and OPEN//77 Alpha access (see [open2077.net](https://open2077.net) for details).
+**Requirements for Clients:** A legal copy Cyberpunk 2077 2.31+ with Phantom Liberty DLC, and OPEN//77 Alpha access (see [open2077.net](https://open2077.net) for details).
 
 This image is based on [Google's Distroless images](https://github.com/googlecontainertools/distroless) to achieve the lowest possible footprint and reduce attack vectors. The image also gets updated automatically - upstream is checked periodically, and a new build is published as soon as a new version is detected. All published images are cryptographically signed; see [SECURITY.md](./SECURITY.md) for how to verify one.
 
