@@ -11,15 +11,25 @@ permissions:
 jobs:
   check-version:
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1   # avoid concurrent pushes racing on the same repo
+      matrix:
+        include:
+          - channel: stable
+            url: https://cdn.open2077.net/server/latest.json
+            state_file: .last-built-version-stable
+          - channel: unstable
+            url: https://cdn.open2077.net/server/unstable/latest.json
+            state_file: .last-built-version-unstable
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           token: ${{ secrets.GH_PAT }}
 
-      - name: Fetch latest.json
+      - name: Fetch latest.json (${{ matrix.channel }})
         id: fetch
         run: |
-          curl -sf https://cdn.open2077.net/server/latest.json -o latest.json
+          curl -sf "${{ matrix.url }}" -o latest.json
           VERSION=$(jq -r .version latest.json)
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
@@ -27,9 +37,9 @@ jobs:
         id: compare
         run: |
           STORED_VERSION=""
-          [ -f .last-built-version ] && STORED_VERSION=$(cat .last-built-version)
+          [ -f "${{ matrix.state_file }}" ] && STORED_VERSION=$(cat "${{ matrix.state_file }}")
           NEW_VERSION="${{ steps.fetch.outputs.version }}"
-          echo "Stored: '$STORED_VERSION' / Upstream: '$NEW_VERSION'"
+          echo "[${{ matrix.channel }}] Stored: '$STORED_VERSION' / Upstream: '$NEW_VERSION'"
           if [ "$STORED_VERSION" != "$NEW_VERSION" ]; then
             echo "should_release=true" >> "$GITHUB_OUTPUT"
           else
@@ -39,11 +49,12 @@ jobs:
       - name: Update tracked version file
         if: steps.compare.outputs.should_release == 'true'
         run: |
-          echo "${{ steps.fetch.outputs.version }}" > .last-built-version
+          git pull --rebase origin master
+          echo "${{ steps.fetch.outputs.version }}" > "${{ matrix.state_file }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .last-built-version
-          git commit -m "chore: bump tracked upstream version to ${{ steps.fetch.outputs.version }}"
+          git add "${{ matrix.state_file }}"
+          git commit -m "chore: bump tracked ${{ matrix.channel }} version to ${{ steps.fetch.outputs.version }}"
           git push
 
       - name: Create tag and GitHub release
@@ -52,8 +63,17 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_PAT }}
         run: |
           VERSION="${{ steps.fetch.outputs.version }}"
-          git tag "$VERSION"
-          git push origin "$VERSION"
-          gh release create "$VERSION" \
-            --title "$VERSION" \
-            --notes "Automated release for upstream Open//77 server version $VERSION"
+          CHANNEL="${{ matrix.channel }}"
+          TAG="${VERSION}"
+          git tag "$TAG"
+          git push origin "$TAG"
+          if [ "$CHANNEL" = "unstable" ]; then
+            gh release create "$TAG" \
+              --title "$TAG" \
+              --notes "Automated release for upstream Open//77 server version $VERSION (unstable channel)" \
+              --prerelease
+          else
+            gh release create "$TAG" \
+              --title "$TAG" \
+              --notes "Automated release for upstream Open//77 server version $VERSION (stable channel)"
+          fi
