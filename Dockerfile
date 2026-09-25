@@ -3,7 +3,7 @@ ARG VERSION
 WORKDIR /app
 RUN true \
     && apt-get update && apt-get install -y --no-install-recommends curl ca-certificates \
-    && curl -so server.tar.gz https://cdn.open2077.dev/server/${VERSION}/open77-server-${VERSION}-linux-x64.tar.gz \
+    && curl -so server.tar.gz https://cdn.open77.dev/server/${VERSION}/open77-server-${VERSION}-linux-x64.tar.gz \
     && tar xzf server.tar.gz && rm server.tar.gz \
     && mkdir settings \
     && chown -R 65532:65532 /app \
