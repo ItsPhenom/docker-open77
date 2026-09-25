@@ -16,10 +16,10 @@ jobs:
       matrix:
         include:
           - channel: stable
-            url: https://cdn.open2077.dev/server/latest.json
+            url: https://cdn.open77.dev/server/latest.json
             state_file: .last-built-version-stable
           - channel: unstable
-            url: https://cdn.open2077.dev/server/unstable/latest.json
+            url: https://cdn.open77.dev/server/unstable/latest.json
             state_file: .last-built-version-unstable
     steps:
       - uses: actions/checkout@v7
