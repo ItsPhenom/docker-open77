@@ -9,9 +9,9 @@
         <img src="https://img.shields.io/docker/pulls/itsphenom/open77?style=flat-square&color=%2300adb0&logo=docker&logoColor=%23ffffff"
             alt="docker pulls"></a>
     <a href="https://hub.docker.com/r/itsphenom/open77">
-        <img src="https://img.shields.io/docker/v/itsphenom/open77?style=flat-square&color=%2300adb0&logo=docker&logoColor=%23ffffff"
+        <img src="https://img.shields.io/docker/v/itsphenom/open77/latest?style=flat-square&color=%2300adb0&logo=docker&logoColor=%23ffffff"
             alt="docker image version"></a>
-    <a href="https://hub.docker.com/r/itsphenom/open77">
+    <a href="https://hub.docker.com/r/itsphenom/open77/latest">
         <img src="https://img.shields.io/docker/image-size/itsphenom/open77?style=flat-square&color=%2300adb0&logo=docker&logoColor=%23ffffff"
             alt="docker image size"></a>
     <!-- <a href="https://discord.com/invite/FrAGRsBJDM">
