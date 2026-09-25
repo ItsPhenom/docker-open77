@@ -45,6 +45,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push
+        id: build
         uses: docker/build-push-action@v7
         with:
           context: .
@@ -55,9 +56,21 @@ jobs:
             BUILD_DATE=${{ steps.prep.outputs.builddate }}
             REVISION=${{ steps.prep.outputs.revision }}
 
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v4
+
+      - name: Sign images
+        env:
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        run: |
+          IMAGE_DIGEST="itsphenom/open77@${{ steps.build.outputs.digest }}"
+          echo "Signing: $IMAGE_DIGEST"
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY "$IMAGE_DIGEST"
+
       - name: Docker Hub Description
         if: steps.prep.outputs.channel == 'stable'
-        uses: peter-evans/dockerhub-description@v3
+        uses: peter-evans/dockerhub-description@v5
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}

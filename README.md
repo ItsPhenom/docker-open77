@@ -27,16 +27,26 @@ The image supports customizable server configuration and persistent storage, so 
 
 OPEN//77 is an unofficial, independent fan project and is not affiliated with, endorsed by, or sponsored by CD PROJEKT S.A. It is currently in Alpha - expect occasional bugs, crashes, or API changes as the platform evolves.
 
-This image is based on [Google's Distroless images](https://github.com/googlecontainertools/distroless) to achieve the lowest possible footprint and reduce attack vectors. The image also gets updated automatically. The check for it is running every 10 minutes.
+This image is based on [Google's Distroless images](https://github.com/googlecontainertools/distroless) to achieve the lowest possible footprint and reduce attack vectors. The image also gets updated automatically - upstream is checked periodically, and a new build is published as soon as a new version is detected. All published images are cryptographically signed; see [SECURITY.md](./SECURITY.md) for how to verify one.
 
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
+- [Available Tags](#available-tags)
 - [How to use this image](#how-to-use-this-image)
   - [... with 'docker run'](#-with-docker-run)
   - [... with 'docker compose'](#-with-docker-compose)
 - [Environment Variables](#environment-variables)
 - [Useful Links](#useful-links)
 
+## Available Tags
+
+| Tag | Description |
+|---|---|
+| `latest`, `stable` | Latest **stable** channel release. Recommended for most users. |
+| `unstable` | Latest **unstable** channel release. May include newer features or fixes ahead of stable, but is less tested. |
+| `<version>` (e.g. `2.31.13-op77.87`) | A specific pinned version, from either channel. Useful for reproducible deployments. |
+
+All tags are rebuilt automatically whenever a new version is published upstream, and are [signed with Cosign](./SECURITY.md#image-signing).
 
 ## How to use this image
 ### ... with 'docker run'
