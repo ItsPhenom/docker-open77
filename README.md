@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="200" src="https://raw.githubusercontent.com/itsphenom/open77/master/.github/assets/banner.png" alt="Open//77 image" />
+  <img height="200" src="https://raw.githubusercontent.com/ItsPhenom/docker-open77/refs/heads/master/.github/assets/banner.png" alt="Open//77 image" />
 </p>
 <p align="center">
     <a href="https://hub.docker.com/r/itsphenom/open77">
